@@ -23,5 +23,6 @@ model User {
   email     String   @unique
   password  String
   name      String?
+  role      String   @default("user") // "user" or "admin"
   createdAt DateTime @default(now())
 }

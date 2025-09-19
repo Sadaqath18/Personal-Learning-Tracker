@@ -5,8 +5,7 @@ const prisma = new PrismaClient();
 
 export async function POST(request) {
   try {
-    const body = await request.json();
-    const { email, password, name } = body;
+    const { email, password, name } = await request.json();
 
     if (!email || !password) {
       return new Response(JSON.stringify({ error: "Email and password required" }), {
@@ -22,6 +21,8 @@ export async function POST(request) {
         email,
         password: hashedPassword,
         name,
+        // explicitly set role to USER for public signup:
+        // role: "USER",
       },
     });
 
