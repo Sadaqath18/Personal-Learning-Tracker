@@ -14,7 +14,7 @@ export default function AdminPage() {
     }
 
     const decoded = jwtDecode(token);
-    if (decoded.role !== "ADMIN") {
+    if (decoded.role !== "admin") {
       router.push("/dashboard"); // redirect normal users
     }
   }, [router]);

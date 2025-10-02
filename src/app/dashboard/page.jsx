@@ -23,7 +23,10 @@ export default function Dashboard() {
           <div className="mt-4 p-2 border rounded bg-gray-800 text-white">
             <h2 className="font-semibold">Admin Panel</h2>
             <p>Only visible to admins.</p>
-            <Link href="/dashboard/admin" className="underline hover:text-blue-400">
+            <Link
+              href="/dashboard/admin"
+              className="underline hover:text-blue-400"
+            >
               Manage Users
             </Link>
           </div>
@@ -37,6 +40,12 @@ export default function Dashboard() {
         )}
       </div>
 
+      <p className="mt-4">
+        <Link href="/dashboard/goals" className="underline hover:text-blue-600">
+          📌 View My Goals
+        </Link>
+      </p>
+
       <button
         onClick={logout}
         className="mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
@@ -45,7 +54,10 @@ export default function Dashboard() {
       </button>
 
       <p className="mt-4">
-        <Link href="/dashboard/settings" className="underline hover:text-blue-600">
+        <Link
+          href="/dashboard/settings"
+          className="underline hover:text-blue-600"
+        >
           Go to Settings
         </Link>
       </p>
