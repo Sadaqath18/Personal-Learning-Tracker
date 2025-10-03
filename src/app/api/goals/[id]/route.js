@@ -18,7 +18,8 @@ function getUserFromToken(req) {
 export async function PUT(req, { params }) {
   try {
     const user = getUserFromToken(req);
-    if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    if (!user)
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const { id } = params;
     const body = await req.json();
@@ -31,7 +32,10 @@ export async function PUT(req, { params }) {
 
     return NextResponse.json({ goal: updatedGoal });
   } catch (err) {
-    return NextResponse.json({ error: "Failed to update goal" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to update the goal" },
+      { status: 500 }
+    );
   }
 }
 
@@ -39,7 +43,8 @@ export async function PUT(req, { params }) {
 export async function DELETE(req, { params }) {
   try {
     const user = getUserFromToken(req);
-    if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    if (!user)
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const { id } = params;
 
@@ -49,6 +54,9 @@ export async function DELETE(req, { params }) {
 
     return NextResponse.json({ message: "Goal deleted successfully" });
   } catch (err) {
-    return NextResponse.json({ error: "Failed to delete goal" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to delete goal" },
+      { status: 500 }
+    );
   }
 }

@@ -13,14 +13,18 @@ export async function GET(req) {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     const goals = await prisma.goal.findMany({
-      where: { userId: decoded.userId },
+      where: { userId: decoded.id },
       select: { id: true, title: true, description: true, status: true },
       orderBy: { createdAt: "desc" },
     });
 
     return NextResponse.json({ goals });
   } catch (err) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    console.error("❌ Error fetching goals:", err.message);
+    return NextResponse.json(
+      { error: "Failed to fetch goals" },
+      { status: 500 }
+    );
   }
 }
 
