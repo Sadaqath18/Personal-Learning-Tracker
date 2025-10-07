@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback, useMemo } from "react";
 import Spinner from "../../components/Spinner";
 import toast from "react-hot-toast";
 import GoalCard from "../../components/GoalCard";
-import { motion } from "framer-motion";
+import GoalsListSkeleton from "@/app/components/skeletons/GoalsListSkeleton";
 import React from "react";
 
 export default function GoalsPage() {
@@ -269,13 +269,10 @@ export default function GoalsPage() {
 
       {error && <p className="text-red-500 mt-2">{error}</p>}
 
-      {/* Page-level loading state */}
+      {/* Goals List with skeleton while loading */}
       {loading ? (
-        <div className="flex justify-center py-10">
-          <Spinner />
-        </div>
+        <GoalsListSkeleton count={3} />
       ) : (
-        // Goals List
         <ul className="mt-6 space-y-3">
           {memoizedGoals.length > 0 ? (
             memoizedGoals.map((goal) => (
