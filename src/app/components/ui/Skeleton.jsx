@@ -13,11 +13,17 @@ const roundedMap = {
 export default function Skeleton({ className = "", rounded = "md" }) {
   const roundedClass = roundedMap[rounded] || roundedMap.md;
   return (
-    <div className={`animate-pulse bg-gray-200 dark:bg-gray-600 ${roundedClass} ${className}`} />
+    <div
+      className={`animate-pulse bg-gray-200 dark:bg-gray-600 ${roundedClass} ${className}`}
+    />
   );
 }
 
-export function SkeletonText({ lines = 3, className = "", lineClassName = "" }) {
+export function SkeletonText({
+  lines = 3,
+  className = "",
+  lineClassName = "",
+}) {
   const widths = [100, 90, 75, 60, 80, 95];
   return (
     <div className={`space-y-2 ${className}`}>
