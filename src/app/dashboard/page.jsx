@@ -4,7 +4,7 @@ import Link from "next/link";
 import useAuth from "@/hooks/useAuth";
 
 export default function Dashboard() {
-  const { user, loading, logout } = useAuth();
+  const { user, loading } = useAuth();
 
   if (loading) return <p>Loading user data...</p>;
   if (!user) return <p>Redirecting to login...</p>;
@@ -43,22 +43,6 @@ export default function Dashboard() {
       <p className="mt-4">
         <Link href="/dashboard/goals" className="underline hover:text-blue-600">
           📌 View My Goals
-        </Link>
-      </p>
-
-      <button
-        onClick={logout}
-        className="mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-      >
-        Logout
-      </button>
-
-      <p className="mt-4">
-        <Link
-          href="/dashboard/settings"
-          className="underline hover:text-blue-600"
-        >
-          Go to Settings
         </Link>
       </p>
     </div>

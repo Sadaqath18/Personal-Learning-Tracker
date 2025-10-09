@@ -130,45 +130,47 @@ export default function AdminPage() {
   return (
     <div className="max-w-6xl mx-auto p-4 space-y-8">
       <div>
-        <h1 className="text-2xl font-bold text-white">Admin Dashboard</h1>
+        <h1 className="text-3xl font-bold text-white tracking-tight">
+          Admin Dashboard
+        </h1>
         {me && (
-          <p className="mt-2 text-white/80">
+          <p className="mt-2 text-slate-300">
             Welcome, {me.name || "Admin"} ({me.email})
           </p>
         )}
       </div>
 
       {/* Users */}
-      <div className="bg-white rounded shadow p-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold">Users</h2>
+      <div className="bg-white rounded-xl shadow-sm ring-1 ring-slate-200">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-slate-200">
+          <h2 className="text-lg font-semibold text-slate-800">Users</h2>
           <button
             onClick={() => window.location.reload()}
-            className="text-sm px-3 py-1 rounded bg-gray-100 hover:bg-gray-200"
+            className="text-sm px-3 py-1.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700"
           >
             Refresh
           </button>
         </div>
-        <div className="overflow-x-auto mt-3">
+        <div className="overflow-x-auto">
           <table className="min-w-full text-sm">
             <thead>
-              <tr className="text-left text-gray-600 border-b">
-                <th className="py-2 pr-3">Name</th>
-                <th className="py-2 pr-3">Email</th>
-                <th className="py-2 pr-3">Role</th>
-                <th className="py-2 pr-3">Goals</th>
-                <th className="py-2 pr-3">Joined</th>
-                <th className="py-2 pr-3 text-right">Actions</th>
+              <tr className="bg-slate-50 text-slate-600 uppercase text-xs tracking-wide">
+                <th className="py-3 px-4 text-left">Name</th>
+                <th className="py-3 px-4 text-left">Email</th>
+                <th className="py-3 px-4 text-left">Role</th>
+                <th className="py-3 px-4 text-left">Goals</th>
+                <th className="py-3 px-4 text-left">Joined</th>
+                <th className="py-3 px-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y divide-slate-100">
               {users.map((u) => (
-                <tr key={u.id} className="border-b last:border-0">
-                  <td className="py-2 pr-3">{u.name || "—"}</td>
-                  <td className="py-2 pr-3">{u.email}</td>
-                  <td className="py-2 pr-3">
+                <tr key={u.id} className="odd:bg-white even:bg-slate-50">
+                  <td className="py-3 px-4 text-slate-800">{u.name || "—"}</td>
+                  <td className="py-3 px-4 text-slate-800">{u.email}</td>
+                  <td className="py-3 px-4">
                     <select
-                      className="border rounded px-2 py-1"
+                      className="border border-slate-300 text-slate-800 rounded px-2 py-1 bg-white"
                       value={u.role}
                       onChange={(e) => handleRoleChange(u.id, e.target.value)}
                       disabled={savingUserId === u.id}
@@ -177,19 +179,21 @@ export default function AdminPage() {
                       <option value="admin">admin</option>
                     </select>
                     {savingUserId === u.id && (
-                      <span className="ml-2 text-xs text-gray-500">
+                      <span className="ml-2 text-xs text-slate-500">
                         Saving…
                       </span>
                     )}
                   </td>
-                  <td className="py-2 pr-3">{u._count?.goals ?? 0}</td>
-                  <td className="py-2 pr-3">
+                  <td className="py-3 px-4 text-slate-800">
+                    {u._count?.goals ?? 0}
+                  </td>
+                  <td className="py-3 px-4 text-slate-800">
                     {new Date(u.createdAt).toLocaleDateString()}
                   </td>
-                  <td className="py-2 pr-3 text-right">
+                  <td className="py-3 px-4 text-right">
                     <button
                       onClick={() => handleDeleteUser(u.id)}
-                      className="px-3 py-1 rounded bg-red-500 hover:bg-red-600 text-white"
+                      className="px-3 py-1.5 rounded-md bg-rose-600 hover:bg-rose-700 text-white"
                       disabled={deletingUserId === u.id}
                     >
                       {deletingUserId === u.id ? "Deleting…" : "Delete"}
@@ -199,7 +203,10 @@ export default function AdminPage() {
               ))}
               {users.length === 0 && (
                 <tr>
-                  <td colSpan="6" className="py-6 text-center text-gray-500">
+                  <td
+                    colSpan="6"
+                    className="py-6 px-4 text-center text-slate-500"
+                  >
                     No users found.
                   </td>
                 </tr>
@@ -210,31 +217,35 @@ export default function AdminPage() {
       </div>
 
       {/* Goals */}
-      <div className="bg-white rounded shadow p-4">
-        <h2 className="text-lg font-semibold">All Goals</h2>
-        <ul className="mt-3 divide-y">
+      <div className="bg-white rounded-xl shadow-sm ring-1 ring-slate-200">
+        <div className="px-4 py-3 border-b border-slate-200">
+          <h2 className="text-lg font-semibold text-slate-800">All Goals</h2>
+        </div>
+        <ul className="divide-y divide-slate-100">
           {goals.map((g) => (
             <li
               key={g.id}
-              className="py-3 flex items-start justify-between gap-4"
+              className="px-4 py-3 flex items-start justify-between gap-6"
             >
               <div className="min-w-0">
-                <p className="font-medium break-words">{g.title}</p>
-                <p className="text-sm text-gray-600 break-words">
+                <p className="font-medium text-slate-900 break-words">
+                  {g.title}
+                </p>
+                <p className="text-sm text-slate-700 break-words">
                   {g.description || "No description"}
                 </p>
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-slate-500 mt-1">
                   By {g.user?.name || "Unknown"} ({g.user?.email}) • {g.status}{" "}
                   • {new Date(g.createdAt).toLocaleString()}
                 </p>
               </div>
               <span
-                className={`text-xs px-2 py-0.5 rounded-full ${
+                className={`text-xs px-2 py-0.5 h-fit rounded-full font-medium ${
                   g.status === "completed"
-                    ? "bg-green-100 text-green-700"
+                    ? "bg-emerald-100 text-emerald-700"
                     : g.status === "in-progress"
-                    ? "bg-yellow-100 text-yellow-700"
-                    : "bg-gray-100 text-gray-700"
+                    ? "bg-amber-100 text-amber-700"
+                    : "bg-slate-100 text-slate-700"
                 }`}
               >
                 {g.status}
@@ -242,7 +253,7 @@ export default function AdminPage() {
             </li>
           ))}
           {goals.length === 0 && (
-            <li className="py-6 text-center text-gray-500">No goals found.</li>
+            <li className="py-6 text-center text-slate-500">No goals found.</li>
           )}
         </ul>
       </div>

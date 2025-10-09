@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -10,12 +11,10 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // 🔥 Redirect if token already exists
+  // Redirect if token already exists
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token) {
-      router.push("/dashboard");
-    }
+    if (token) router.push("/dashboard");
   }, [router]);
 
   const handleSubmit = async (e) => {
@@ -33,9 +32,8 @@ export default function LoginPage() {
       if (!res.ok) throw new Error("Login failed");
 
       const data = await res.json();
-      localStorage.setItem("token", data.token); //store JWT
-
-      router.push("/dashboard"); //redirect to dashboard
+      localStorage.setItem("token", data.token);
+      router.push("/dashboard");
     } catch (err) {
       setError("Invalid credentials");
     } finally {
@@ -69,6 +67,16 @@ export default function LoginPage() {
           className="w-full border border-gray-400 rounded-lg px-3 py-2 bg-gray-50 placeholder-gray-400 text-black focus:outline-none focus:ring-1 focus:ring-blue-400"
         />
 
+        <div className="flex items-center justify-between text-sm">
+          <span className="invisible">.</span>
+          <Link
+            href="/forgot-password"
+            className="text-blue-600 hover:underline"
+          >
+            Forgot password?
+          </Link>
+        </div>
+
         {error && <p className="text-red-500 text-sm">{error}</p>}
 
         <button
@@ -91,12 +99,12 @@ export default function LoginPage() {
                   r="10"
                   stroke="currentColor"
                   strokeWidth="4"
-                ></circle>
+                />
                 <path
                   className="opacity-75"
                   fill="currentColor"
                   d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-                ></path>
+                />
               </svg>
               <span>Logging in...</span>
             </span>

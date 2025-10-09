@@ -1,3 +1,8 @@
+/* Clamp horizontal overflow globally */
+html, body, #__next, :root {
+  overflow-x: hidden;
+}
+
 @import "tailwindcss";
 
 :root {

@@ -27,7 +27,7 @@ export default function ProfileForm({
   defaultName,
   email,
   role,
-  onSubmit, // async ({ name, currentPassword, newPassword }) => boolean
+  onSubmit,
   saving,
 }) {
   const [name, setName] = useState(defaultName || "");
@@ -40,42 +40,35 @@ export default function ProfileForm({
   const [showNew, setShowNew] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
-  useEffect(() => {
-    setName(defaultName || "");
-  }, [defaultName]);
+  useEffect(() => setName(defaultName || ""), [defaultName]);
 
   const errors = useMemo(() => {
     const next = { name: "", currentPwd: "", newPwd: "", confirmPwd: "" };
 
-    if (!name?.trim() || name.trim().length < 2) {
+    if (!name?.trim() || name.trim().length < 2)
       next.name = "Name must be at least 2 characters.";
-    } else if (name.trim().length > 30) {
+    else if (name.trim().length > 30)
       next.name = "Name cannot exceed 30 characters.";
-    }
 
     if (changePwd) {
       if (!currentPwd) next.currentPwd = "Current password is required.";
-      if (!newPwd) {
-        next.newPwd = "New password is required.";
-      } else if (newPwd.length < 8) {
+      if (!newPwd) next.newPwd = "New password is required.";
+      else if (newPwd.length < 8)
         next.newPwd = "Password must be at least 8 characters.";
-      } else if (!/[A-Z]/.test(newPwd)) {
+      else if (!/[A-Z]/.test(newPwd))
         next.newPwd = "Include at least one uppercase letter.";
-      } else if (!/[a-z]/.test(newPwd)) {
+      else if (!/[a-z]/.test(newPwd))
         next.newPwd = "Include at least one lowercase letter.";
-      } else if (!/[0-9]/.test(newPwd)) {
+      else if (!/[0-9]/.test(newPwd))
         next.newPwd = "Include at least one number.";
-      } else if (!/[^\w\s]/.test(newPwd)) {
+      else if (!/[^\w\s]/.test(newPwd))
         next.newPwd = "Include at least one special character.";
-      } else if (currentPwd && newPwd === currentPwd) {
+      else if (currentPwd && newPwd === currentPwd)
         next.newPwd = "New password must be different from current password.";
-      }
-
       if (!confirmPwd) next.confirmPwd = "Please confirm your new password.";
       else if (confirmPwd !== newPwd)
         next.confirmPwd = "Passwords do not match.";
     }
-
     return next;
   }, [name, changePwd, currentPwd, newPwd, confirmPwd]);
 
@@ -96,12 +89,12 @@ export default function ProfileForm({
     const pct = (score / 5) * 100;
     const color =
       pct >= 80
-        ? "bg-green-500"
+        ? "bg-emerald-500"
         : pct >= 60
-        ? "bg-yellow-500"
+        ? "bg-amber-500"
         : pct >= 40
         ? "bg-orange-500"
-        : "bg-red-500";
+        : "bg-rose-500";
     const label =
       pct >= 80
         ? "Strong"
@@ -122,13 +115,11 @@ export default function ProfileForm({
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (hasErrors) return;
-
-    const payload = {
+    const ok = await onSubmit({
       name: name.trim(),
       currentPassword: changePwd ? currentPwd : undefined,
       newPassword: changePwd ? newPwd : undefined,
-    };
-    const ok = await onSubmit(payload);
+    });
     if (ok) {
       setCurrentPwd("");
       setNewPwd("");
@@ -145,25 +136,25 @@ export default function ProfileForm({
     sp: /[^\w\s]/.test(newPwd),
   };
 
-  const reqBadge = (ok) =>
+  const reqPill = (ok) =>
     `text-[10px] px-2 py-0.5 rounded-full border ${
       ok
-        ? "bg-green-50 text-green-700 border-green-200"
-        : "bg-gray-50 text-gray-500 border-gray-200"
+        ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+        : "bg-slate-50 text-slate-500 border-slate-200"
     }`;
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form onSubmit={handleSubmit} className="space-y-6">
       {/* Name */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-sm font-medium text-slate-700 mb-1">
           Name
         </label>
         <div className="relative">
           <input
             type="text"
-            className={`w-full border px-3 py-2 pr-14 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-              errors.name ? "border-red-400" : "border-gray-300"
+            className={`w-full border border-slate-300 px-3 py-2 pr-14 rounded-lg bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${
+              errors.name ? "border-rose-300" : ""
             }`}
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -172,18 +163,18 @@ export default function ProfileForm({
             required
             autoComplete="name"
           />
-          <span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-gray-400">
+          <span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-slate-400">
             {name.length}/30
           </span>
         </div>
-        <div className="text-xs text-gray-500 mt-1">Use 3 - 30 characters.</div>
+        <div className="text-xs text-slate-500 mt-1">Use 2–30 characters.</div>
         <AnimatePresence>
           {errors.name && (
             <motion.p
               initial={{ opacity: 0, y: -4 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -4 }}
-              className="text-sm text-red-600 mt-1"
+              className="text-sm text-rose-600 mt-1"
             >
               {errors.name}
             </motion.p>
@@ -193,12 +184,12 @@ export default function ProfileForm({
 
       {/* Email */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-sm font-medium text-slate-700 mb-1">
           Email
         </label>
         <input
           type="email"
-          className="w-full border px-3 py-2 rounded bg-gray-100 text-gray-700 border-gray-300"
+          className="w-full border border-slate-300 px-3 py-2 rounded-lg bg-slate-50 text-slate-800"
           value={email}
           disabled
           readOnly
@@ -208,11 +199,11 @@ export default function ProfileForm({
 
       {/* Role */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-sm font-medium text-slate-700 mb-1">
           Role
         </label>
         <input
-          className="w-full border px-3 py-2 rounded bg-gray-100 text-gray-700 border-gray-300"
+          className="w-full border border-slate-300 px-3 py-2 rounded-lg bg-slate-50 text-slate-800"
           value={role}
           disabled
           readOnly
@@ -220,14 +211,14 @@ export default function ProfileForm({
       </div>
 
       {/* Password change */}
-      <div className="border-t pt-4">
+      <div className="border-t border-slate-200 pt-4">
         <div className="flex items-center justify-between">
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-slate-700">
             Password
           </label>
           <button
             type="button"
-            className="text-xs text-blue-600 hover:underline"
+            className="text-xs text-indigo-600 hover:underline"
             onClick={() => setChangePwd((s) => !s)}
           >
             {changePwd ? "Cancel change" : "Change password"}
@@ -242,31 +233,26 @@ export default function ProfileForm({
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.2 }}
-              className="mt-3 space-y-3"
+              className="mt-3 space-y-4"
             >
               {/* Current */}
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <label className="block text-sm font-medium text-gray-700">
+                  <label className="block text-sm font-medium text-slate-700">
                     Current Password
                   </label>
                   <div className="flex items-center gap-3">
                     <a
                       href="/forgot-password"
-                      className="text-xs text-blue-600 hover:underline"
+                      className="text-xs text-indigo-600 hover:underline"
                     >
                       Forgot current password?
                     </a>
                     <button
                       type="button"
-                      className="text-blue-600 hover:text-blue-700"
+                      className="text-indigo-600 hover:text-indigo-700"
                       onClick={() => setShowCurrent((s) => !s)}
-                      aria-label={
-                        showCurrent
-                          ? "Hide current password"
-                          : "Show current password"
-                      }
-                      title={showCurrent ? "Hide password" : "Show password"}
+                      aria-label="Toggle current password"
                     >
                       {showCurrent ? <EyeOff /> : <Eye />}
                     </button>
@@ -274,8 +260,8 @@ export default function ProfileForm({
                 </div>
                 <input
                   type={showCurrent ? "text" : "password"}
-                  className={`w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                    errors.currentPwd ? "border-red-400" : "border-gray-300"
+                  className={`w-full border border-slate-300 px-3 py-2 rounded-lg bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${
+                    errors.currentPwd ? "border-rose-300" : ""
                   }`}
                   placeholder="Enter current password"
                   value={currentPwd}
@@ -288,7 +274,7 @@ export default function ProfileForm({
                       initial={{ opacity: 0, y: -4 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -4 }}
-                      className="text-sm text-red-600 mt-1"
+                      className="text-sm text-rose-600 mt-1"
                     >
                       {errors.currentPwd}
                     </motion.p>
@@ -299,25 +285,22 @@ export default function ProfileForm({
               {/* New */}
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <label className="block text-sm font-medium text-gray-700">
+                  <label className="block text-sm font-medium text-slate-700">
                     New Password
                   </label>
                   <button
                     type="button"
-                    className="text-blue-600 hover:text-blue-700"
+                    className="text-indigo-600 hover:text-indigo-700"
                     onClick={() => setShowNew((s) => !s)}
-                    aria-label={
-                      showNew ? "Hide new password" : "Show new password"
-                    }
-                    title={showNew ? "Hide password" : "Show password"}
+                    aria-label="Toggle new password"
                   >
                     {showNew ? <EyeOff /> : <Eye />}
                   </button>
                 </div>
                 <input
                   type={showNew ? "text" : "password"}
-                  className={`w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                    errors.newPwd ? "border-red-400" : "border-gray-300"
+                  className={`w-full border border-slate-300 px-3 py-2 rounded-lg bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${
+                    errors.newPwd ? "border-rose-300" : ""
                   }`}
                   placeholder="Enter new password"
                   value={newPwd}
@@ -325,20 +308,20 @@ export default function ProfileForm({
                   autoComplete="new-password"
                 />
                 <div className="flex flex-wrap gap-1 mt-2">
-                  <span className={reqBadge(reqs.len)}>8+ chars</span>
-                  <span className={reqBadge(reqs.up)}>A-Z</span>
-                  <span className={reqBadge(reqs.lo)}>a-z</span>
-                  <span className={reqBadge(reqs.num)}>0-9</span>
-                  <span className={reqBadge(reqs.sp)}>symbol</span>
+                  <span className={reqPill(reqs.len)}>8+ chars</span>
+                  <span className={reqPill(reqs.up)}>A‑Z</span>
+                  <span className={reqPill(reqs.lo)}>a‑z</span>
+                  <span className={reqPill(reqs.num)}>0‑9</span>
+                  <span className={reqPill(reqs.sp)}>symbol</span>
                 </div>
                 <div className="mt-2">
-                  <div className="h-2 w-full bg-gray-200 rounded">
+                  <div className="h-2 w-full bg-slate-200 rounded">
                     <div
                       className={`h-2 rounded ${pwdStrength.color}`}
                       style={{ width: `${pwdStrength.score}%` }}
                     />
                   </div>
-                  <div className="text-xs text-gray-500 mt-1">
+                  <div className="text-xs text-slate-500 mt-1">
                     {newPwd
                       ? `Strength: ${pwdStrength.label}`
                       : "Use at least 8 characters"}
@@ -350,7 +333,7 @@ export default function ProfileForm({
                       initial={{ opacity: 0, y: -4 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -4 }}
-                      className="text-sm text-red-600 mt-1"
+                      className="text-sm text-rose-600 mt-1"
                     >
                       {errors.newPwd}
                     </motion.p>
@@ -361,27 +344,22 @@ export default function ProfileForm({
               {/* Confirm */}
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <label className="block text-sm font-medium text-gray-700">
+                  <label className="block text-sm font-medium text-slate-700">
                     Confirm New Password
                   </label>
                   <button
                     type="button"
-                    className="text-blue-600 hover:text-blue-700"
+                    className="text-indigo-600 hover:text-indigo-700"
                     onClick={() => setShowConfirm((s) => !s)}
-                    aria-label={
-                      showConfirm
-                        ? "Hide confirm password"
-                        : "Show confirm password"
-                    }
-                    title={showConfirm ? "Hide password" : "Show password"}
+                    aria-label="Toggle confirm password"
                   >
                     {showConfirm ? <EyeOff /> : <Eye />}
                   </button>
                 </div>
                 <input
                   type={showConfirm ? "text" : "password"}
-                  className={`w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                    errors.confirmPwd ? "border-red-400" : "border-gray-300"
+                  className={`w-full border border-slate-300 px-3 py-2 rounded-lg bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${
+                    errors.confirmPwd ? "border-rose-300" : ""
                   }`}
                   placeholder="Confirm new password"
                   value={confirmPwd}
@@ -394,7 +372,7 @@ export default function ProfileForm({
                       initial={{ opacity: 0, y: -4 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -4 }}
-                      className="text-sm text-red-600 mt-1"
+                      className="text-sm text-rose-600 mt-1"
                     >
                       {errors.confirmPwd}
                     </motion.p>
@@ -412,20 +390,11 @@ export default function ProfileForm({
         disabled={saving || !dirty || hasErrors}
         className={`w-full text-white py-2.5 rounded-lg font-semibold transition shadow-sm ${
           saving || !dirty || hasErrors
-            ? "bg-gray-300 cursor-not-allowed"
-            : "bg-blue-600 hover:bg-blue-700"
+            ? "bg-slate-300 cursor-not-allowed"
+            : "bg-indigo-600 hover:bg-indigo-700"
         }`}
       >
-        {saving ? (
-          <motion.div
-            aria-label="Saving"
-            animate={{ rotate: 360 }}
-            transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-            className="w-5 h-5 border-2 border-white border-t-transparent mx-auto rounded-full"
-          />
-        ) : (
-          "Update Profile"
-        )}
+        {saving ? "Saving..." : "Update Profile"}
       </motion.button>
     </form>
   );

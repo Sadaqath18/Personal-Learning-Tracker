@@ -12,15 +12,15 @@ const RoleBadge = ({ role }) => {
   return <span className={className}>{role}</span>;
 };
 
-const ProfileHeader = ({ name, email, role }) => {
+export default function ProfileHeader({ name, email, role }) {
   return (
-    <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-t-xl p-6 text-white">
+    <div className="bg-gradient-to-r from-indigo-600 via-violet-600 to-purple-600 rounded-t-xl p-6 text-white shadow">
       <div className="flex items-center gap-4">
         <div className="w-14 h-14 rounded-full bg-white/20 flex items-center justify-center text-2xl font-bold">
           {name?.charAt(0)?.toUpperCase() || "U"}
         </div>
         <div>
-          <h1 className="text-2xl font-bold">My Profile</h1>
+          <h1 className="text-2xl font-bold tracking-tight">My Profile</h1>
           <div className="flex items-center gap-2 mt-1">
             <span className="text-white/90 text-sm">{email}</span>
             <RoleBadge role={role} />
@@ -29,6 +29,4 @@ const ProfileHeader = ({ name, email, role }) => {
       </div>
     </div>
   );
-};
-
-export default ProfileHeader;
+}

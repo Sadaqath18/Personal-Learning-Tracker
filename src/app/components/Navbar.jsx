@@ -12,20 +12,6 @@ export default function Navbar() {
         Home
       </Link>
       {"| "}
-      <Link
-        href="/about"
-        className={pathname === "/about" ? "underline font-bold" : ""}
-      >
-        About
-      </Link>
-      {"| "}
-      <Link
-        href="/contact"
-        className={pathname === "/contact" ? "underline font-bold" : ""}
-      >
-        Contact
-      </Link>
-      {"| "}
 
       <Link
         href="/blog/1"
