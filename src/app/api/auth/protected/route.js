@@ -19,7 +19,7 @@ export async function GET(request) {
     let decoded;
     try {
       decoded = jwt.verify(token, JWT_SECRET);
-       console.log("🔓 Decoded token:", decoded)
+      console.log("🔓 Decoded token:", decoded);
     } catch (err) {
       console.error("JWT verification error:", err);
       return new Response(JSON.stringify({ error: "Invalid token" }), {
@@ -27,8 +27,7 @@ export async function GET(request) {
       });
     }
 
-    console.log("Looking for user with ID:", decoded.userId)
-
+    console.log("Looking for user with ID:", decoded.userId);
 
     // ✅ Fetch only the logged-in user's data
     const user = await prisma.user.findUnique({

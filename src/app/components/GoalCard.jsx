@@ -22,7 +22,7 @@ const GoalCard = ({
   return (
     <li
       key={goal.id}
-      className="p-4 border rounded bg-white shadow-sm text-red-800 flex flex-col gap-3"
+      className="p-4 border rounded bg-white shadow-sm text-slate-800 flex flex-col gap-3"
     >
       <div className="flex-1 min-w-0 flex flex-col justify-between">
         <h2
@@ -33,7 +33,7 @@ const GoalCard = ({
           {goal.title}
         </h2>
         <p
-          className={`break-words whitespace-pre-wrap text-sm mt-1 ${
+          className={`break-words whitespace-pre-wrap text-sm mt-1 text-slate-700 ${
             isExpanded ? "" : "line-clamp-3"
           } ${isCompleted ? "line-through text-gray-400" : ""}`}
         >

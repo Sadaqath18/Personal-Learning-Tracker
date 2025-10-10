@@ -1,6 +1,45 @@
-/* Clamp horizontal overflow globally */
-html, body, #__next, :root {
+/* Prevent horizontal scroll globally */
+html,
+body,
+#__next,
+:root {
   overflow-x: hidden;
+}
+
+/* Cross-browser text-size adjust */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+  }
+}
+
+/* Standard line-clamp to complement Tailwind’s -webkit-line-clamp */
+@layer utilities {
+  .line-clamp-1 {
+    line-clamp: 1;
+  }
+  .line-clamp-2 {
+    line-clamp: 2;
+  }
+  .line-clamp-3 {
+    line-clamp: 3;
+  }
+}
+
+/* Silence vertical-align on block elements (Edge warns it’s ignored) */
+@layer base {
+  img,
+  svg,
+  video,
+  canvas,
+  audio,
+  iframe,
+  embed,
+  object {
+    vertical-align: baseline; /* safe default; ignored on block */
+  }
 }
 
 @import "tailwindcss";
