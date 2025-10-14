@@ -29,15 +29,15 @@ export default function ForgotPasswordPage() {
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded shadow">
-      <h1 className="text-xl font-semibold mb-4">Forgot your password?</h1>
+      <h1 className="text-xl text-yellow-800 font-semibold mb-4">Forgot your password?</h1>
       <p className="text-sm text-gray-600 mb-4">
-        Enter your email and we’ll send you a link to reset your password.
+        Enter your email and we'll send you a link to reset your password.
       </p>
       <form onSubmit={onSubmit} className="space-y-3">
         <input
           type="email"
           required
-          className="w-full border px-3 py-2 rounded"
+          className="w-full border px-3 py-2 rounded placeholder-gray-400 text-black focus:outline-none focus:ring-1 focus:ring-black-400"
           placeholder="you@example.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}

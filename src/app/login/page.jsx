@@ -7,13 +7,21 @@ import Link from "next/link";
 // Inline icons
 const Eye = (props) => (
   <svg viewBox="0 0 24 24" fill="none" width="18" height="18" {...props}>
-    <path stroke="currentColor" strokeWidth="2" d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z" />
+    <path
+      stroke="currentColor"
+      strokeWidth="2"
+      d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"
+    />
     <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" />
   </svg>
 );
 const EyeOff = (props) => (
   <svg viewBox="0 0 24 24" fill="none" width="18" height="18" {...props}>
-    <path stroke="currentColor" strokeWidth="2" d="M3 3l18 18M10.6 10.6a3 3 0 104.24 4.24M6.1 6.55C3.77 8.13 2 12 2 12s3.5 7 10 7a10.9 10.9 0 005.9-1.55M16.2 7.8A10.9 10.9 0 0012 5c-6.5 0-10 7-10 7a20.7 20.7 0 004.2 4.8" />
+    <path
+      stroke="currentColor"
+      strokeWidth="2"
+      d="M3 3l18 18M10.6 10.6a3 3 0 104.24 4.24M6.1 6.55C3.77 8.13 2 12 2 12s3.5 7 10 7a10.9 10.9 0 005.9-1.55M16.2 7.8A10.9 10.9 0 0012 5c-6.5 0-10 7-10 7a20.7 20.7 0 004.2 4.8"
+    />
   </svg>
 );
 
@@ -28,7 +36,7 @@ export default function LoginPage() {
   // Redirect if token already exists
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token) router.replace("/goals");
+    if (token) router.replace("/dashboard");
   }, [router]);
 
   const hasErrors = useMemo(() => {
@@ -50,10 +58,11 @@ export default function LoginPage() {
       });
 
       const data = await res.json();
-      if (!res.ok || !data?.token) throw new Error(data.error || "Login failed");
+      if (!res.ok || !data?.token)
+        throw new Error(data.error || "Login failed");
 
       localStorage.setItem("token", data.token);
-      router.push("/goals");
+      router.push("/dashboard");
     } catch (err) {
       setError(err.message || "Invalid credentials");
     } finally {
@@ -67,11 +76,15 @@ export default function LoginPage() {
         onSubmit={handleSubmit}
         className="bg-white rounded-xl shadow p-6 w-full max-w-sm space-y-4"
       >
-        <h1 className="text-2xl font-bold text-slate-900 text-center">Welcome back</h1>
+        <h1 className="text-2xl font-bold text-slate-900 text-center">
+          Welcome back
+        </h1>
 
         {/* Email */}
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-1">Email</label>
+          <label className="block text-sm font-medium text-slate-700 mb-1">
+            Email
+          </label>
           <input
             type="email"
             className="w-full border px-3 py-2 rounded border-slate-300 placeholder-gray-400 text-black focus:outline-none focus:ring-1 focus:ring-blue-400"
@@ -86,7 +99,9 @@ export default function LoginPage() {
         {/* Password */}
         <div>
           <div className="flex items-center justify-between mb-1">
-            <label className="block text-sm font-medium text-slate-700">Password</label>
+            <label className="block text-sm font-medium text-slate-700">
+              Password
+            </label>
             <button
               type="button"
               onClick={() => setShowPwd((s) => !s)}
@@ -107,7 +122,10 @@ export default function LoginPage() {
           />
           <div className="flex items-center justify-between text-sm mt-1">
             <span className="invisible">.</span>
-            <Link href="/forgot-password" className="text-indigo-600 hover:underline">
+            <Link
+              href="/forgot-password"
+              className="text-indigo-600 hover:underline"
+            >
               Forgot password?
             </Link>
           </div>
@@ -124,7 +142,7 @@ export default function LoginPage() {
         </button>
 
         <p className="text-sm text-slate-600 text-center">
-          Don’t have an account?{" "}
+          Don't have an account?{" "}
           <Link href="/signup" className="text-indigo-600 hover:underline">
             Sign up
           </Link>

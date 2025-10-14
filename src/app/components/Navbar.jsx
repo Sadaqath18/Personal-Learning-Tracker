@@ -8,12 +8,12 @@ export default function PublicNavbar() {
   const router = useRouter();
   const pathname = usePathname();
 
-  // Always call hooks at the top (do not early-return before these)
   const [authed, setAuthed] = useState(false);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const t = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    const t =
+      typeof window !== "undefined" ? localStorage.getItem("token") : null;
     setAuthed(Boolean(t));
   }, []);
 
@@ -26,9 +26,10 @@ export default function PublicNavbar() {
 
   const isActive = (href) => pathname === href;
   const isDashboard = pathname?.startsWith("/dashboard");
+  const isHome = pathname === "/";
 
-  // Now it’s safe to conditionally render
-  if (isDashboard) return null;
+  // Hide navbar on dashboard routes AND on the home page
+  if (isDashboard || isHome) return null;
 
   return (
     <header className="sticky top-0 z-50 bg-slate-900/80 backdrop-blur border-b border-slate-800">
@@ -41,7 +42,9 @@ export default function PublicNavbar() {
           <nav className="hidden md:flex items-center gap-6">
             <Link
               href="/"
-              className={`text-sm ${isActive("/") ? "text-white" : "text-slate-300 hover:text-white"}`}
+              className={`text-sm ${
+                isActive("/") ? "text-white" : "text-slate-300 hover:text-white"
+              }`}
             >
               Home
             </Link>
@@ -64,7 +67,7 @@ export default function PublicNavbar() {
             ) : (
               <div className="flex items-center gap-2">
                 <Link
-                  href="/goals"
+                  href="/dashboard"
                   className="text-sm px-3 py-1.5 rounded bg-indigo-600 hover:bg-indigo-700 text-white"
                 >
                   Go to Dashboard
@@ -99,7 +102,9 @@ export default function PublicNavbar() {
           <Link
             href="/"
             onClick={() => setOpen(false)}
-            className={`text-sm ${isActive("/") ? "text-white" : "text-slate-300 hover:text-white"}`}
+            className={`text-sm ${
+              isActive("/") ? "text-white" : "text-slate-300 hover:text-white"
+            }`}
           >
             Home
           </Link>
@@ -124,7 +129,7 @@ export default function PublicNavbar() {
           ) : (
             <>
               <Link
-                href="/goals"
+                href="/dashboard"
                 onClick={() => setOpen(false)}
                 className="text-sm px-3 py-2 rounded bg-indigo-600 hover:bg-indigo-700 text-white text-center"
               >

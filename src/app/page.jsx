@@ -25,11 +25,6 @@ export default function HomePage() {
             Log In
           </Link>
         </div>
-        <div className="text-slate-400 text-sm">
-          <Link href="/forgot-password" className="hover:underline">
-            Forgot password?
-          </Link>
-        </div>
       </div>
     </main>
   );

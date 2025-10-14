@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcrypt";
+import bcryptjs from "bcryptjs";
 
 const prisma = new PrismaClient();
 
@@ -8,13 +8,16 @@ export async function POST(request) {
     const { email, password, name } = await request.json();
 
     if (!email || !password) {
-      return new Response(JSON.stringify({ error: "Email and password required" }), {
-        status: 400,
-      });
+      return new Response(
+        JSON.stringify({ error: "Email and password required" }),
+        {
+          status: 400,
+        }
+      );
     }
 
     // hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcryptjs.hash(password, 10);
 
     const user = await prisma.user.create({
       data: {
@@ -22,7 +25,7 @@ export async function POST(request) {
         password: hashedPassword,
         name,
         // explicitly set role to USER for public signup:
-        // role: "USER",
+        // role: "user",
       },
     });
 
@@ -31,8 +34,11 @@ export async function POST(request) {
     });
   } catch (error) {
     console.error("Signup Error:", error);
-    return new Response(JSON.stringify({ error: "User already exists or invalid data" }), {
-      status: 400,
-    });
+    return new Response(
+      JSON.stringify({ error: "User already exists or invalid data" }),
+      {
+        status: 400,
+      }
+    );
   }
 }
