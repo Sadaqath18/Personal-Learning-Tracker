@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "set NODE_OPTIONS=--max-old-space-size=8192 && next dev",
-    "build": "set NODE_OPTIONS=--max-old-space-size=8192 && next build",
+    "build": "cross-env NODE_OPTIONS=--max-old-space-size=8192 prisma migrate deploy && next build",
     "start": "set NODE_OPTIONS=--max-old-space-size=8192 && next start",
     "lint": "eslint",
     "postinstall": "prisma generate",
@@ -26,6 +26,7 @@
     "@tailwindcss/line-clamp": "^0.4.4",
     "@tailwindcss/postcss": "^4",
     "autoprefixer": "^10.4.21",
+    "dotenv": "^17.2.3",
     "eslint": "^9",
     "eslint-config-next": "15.5.2",
     "postcss": "^8.5.6",
