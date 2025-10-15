@@ -1,3 +1,5 @@
+export const runtime = "nodejs";
+
 import { PrismaClient } from "@prisma/client";
 import bcryptjs from "bcryptjs";
 

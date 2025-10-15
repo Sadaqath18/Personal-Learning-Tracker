@@ -1,13 +1,13 @@
 import { PrismaClient } from "@prisma/client";
 
+// Use a non-generic global key to avoid collisions
 const globalForPrisma = globalThis;
 
-let prisma;
+export const prisma =
+  globalForPrisma.PRISMA_CLIENT || new PrismaClient({ log: ["error"] });
 
-if (!globalForPrisma.prisma) {
-  globalForPrisma.prisma = new PrismaClient();
+if (process.env.NODE_ENV !== "production") {
+  globalForPrisma.PRISMA_CLIENT = prisma;
 }
-
-prisma = globalForPrisma.prisma;
 
 export default prisma;

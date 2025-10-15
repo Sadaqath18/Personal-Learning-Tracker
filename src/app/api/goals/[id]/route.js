@@ -1,3 +1,5 @@
+export const runtime = "nodejs";
+
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import jwt from "jsonwebtoken";
@@ -17,7 +19,8 @@ function getUserFromToken(req) {
 export async function PUT(req, { params }) {
   try {
     const user = getUserFromToken(req);
-    if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    if (!user)
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const { id } = await params; // keep await if your runtime requires it
     const body = await req.json();
@@ -44,10 +47,7 @@ export async function PUT(req, { params }) {
     if (typeof status !== "undefined") {
       const allowed = ["pending", "in-progress", "completed"];
       if (!allowed.includes(status)) {
-        return NextResponse.json(
-          { error: "Invalid status" },
-          { status: 400 }
-        );
+        return NextResponse.json({ error: "Invalid status" }, { status: 400 });
       }
       data.status = status;
     }
@@ -90,7 +90,8 @@ export async function PUT(req, { params }) {
 export async function DELETE(req, { params }) {
   try {
     const user = getUserFromToken(req);
-    if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    if (!user)
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const { id } = await params;
     const goalId = parseInt(id, 10);
