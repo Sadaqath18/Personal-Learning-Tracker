@@ -1,5 +1,9 @@
 "use client";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+export const fetchCache = "force-no-store";
+
 import { useState } from "react";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
@@ -29,7 +33,9 @@ export default function ForgotPasswordPage() {
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded shadow">
-      <h1 className="text-xl text-yellow-800 font-semibold mb-4">Forgot your password?</h1>
+      <h1 className="text-xl text-yellow-800 font-semibold mb-4">
+        Forgot your password?
+      </h1>
       <p className="text-sm text-gray-600 mb-4">
         Enter your email and we'll send you a link to reset your password.
       </p>
@@ -37,7 +43,7 @@ export default function ForgotPasswordPage() {
         <input
           type="email"
           required
-          className="w-full border px-3 py-2 rounded placeholder-gray-400 text-black focus:outline-none focus:ring-1 focus:ring-black-400"
+          className="w-full border px-3 py-2 rounded placeholder-gray-400 text-black focus:outline-none focus:ring-1 focus:ring-black"
           placeholder="you@example.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -46,7 +52,9 @@ export default function ForgotPasswordPage() {
           type="submit"
           whileTap={{ scale: 0.97 }}
           disabled={submitting}
-          className={`w-full text-white py-2 rounded ${submitting ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700"}`}
+          className={`w-full text-white py-2 rounded ${
+            submitting ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700"
+          }`}
         >
           {submitting ? "Sending..." : "Send reset link"}
         </motion.button>
