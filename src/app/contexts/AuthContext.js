@@ -1,53 +1,77 @@
 "use client";
+
 import { createContext, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import jwtDecode from "jwt-decode";
 
-const AuthContext = createContext();
+const AuthContext = createContext({
+  user: null,
+  login: () => {},
+  logout: () => {},
+  loading: false,
+});
+
+// Helper: read token from localStorage and return decoded user if valid
+function getInitialUser() {
+  if (typeof window === "undefined") return null;
+  const token = localStorage.getItem("token");
+  if (!token) return null;
+
+  try {
+    const decoded = jwtDecode(token);
+    if (decoded?.exp && decoded.exp * 1000 > Date.now()) {
+      return decoded;
+    }
+    // Expired token
+    localStorage.removeItem("token");
+    return null;
+  } catch {
+    // Bad token
+    localStorage.removeItem("token");
+    return null;
+  }
+}
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  // Derive initial user synchronously to avoid setState inside an effect
+  const [user, setUser] = useState(getInitialUser);
   const router = useRouter();
 
+  // Keep other tabs/windows in sync
   useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    if (token) {
-      try {
-        const decoded = jwtDecode(token);
-
-        // Check expiry
-        if (decoded.exp * 1000 > Date.now()) {
-          setUser(decoded);
-        } else {
-          localStorage.removeItem("token");
-          setUser(null);
-        }
-      } catch (err) {
-        console.error("Invalid token:", err);
-        localStorage.removeItem("token");
-        setUser(null);
+    const onStorage = (e) => {
+      if (e.key === "token") {
+        setUser(getInitialUser());
       }
-    }
-    setLoading(false);
+    };
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
   }, []);
 
   const login = (token) => {
-    localStorage.setItem("token", token);
-    const decoded = jwtDecode(token);
-    setUser(decoded);
-    router.push("/dashboard");
+    try {
+      localStorage.setItem("token", token);
+      const decoded = jwtDecode(token);
+      setUser(decoded);
+      router.push("/dashboard");
+    } catch {
+      // If token is invalid, ensure a clean state
+      localStorage.removeItem("token");
+      setUser(null);
+    }
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
+    try {
+      localStorage.removeItem("token");
+    } catch {}
     setUser(null);
     router.push("/login");
   };
 
+  // loading can be false because initialization is synchronous
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, logout, loading: false }}>
       {children}
     </AuthContext.Provider>
   );
