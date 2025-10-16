@@ -7,7 +7,10 @@ A full-stack **Next.js** app to create, track, and manage learning goals with au
 <p align="center">
   <a href="https://github.com/Sadaqath18/personal-learning-tracker/stargazers"><img src="https://img.shields.io/github/stars/Sadaqath18/personal-learning-tracker?style=social" /></a>
   <a href="https://github.com/Sadaqath18/personal-learning-tracker/network/members"><img src="https://img.shields.io/github/forks/Sadaqath18/personal-learning-tracker?style=social" /></a>
-  <a href="https://github.com/Sadaqath18/personal-learning-tracker/blob/main/LICENSE"><img src="https://img.shields.io/github/license/Sadaqath18/personal-learning-tracker?color=blue" /></a>
+  <a href="https://github.com/Sadaqath18/personal-learning-tracker/blob/main/LICENSE">
+  <img src="https://img.shields.io/github/license/Sadaqath18/personal-learning-tracker?color=blue" />
+</a>
+ 
   <br />
   <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Next.js-15-black?logo=next.js" /></a>
   <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/TailwindCSS-4.0-06B6D4?logo=tailwindcss&logoColor=white" /></a>
@@ -99,7 +102,7 @@ Follow these steps to run the project locally 👇
 
 #### 1️⃣ Clone the Repository
 ```bash
-git clone https://github.com/<your-username>/<your-repo-name>.git
+git clone https://github.com/<Sadaqath18>/<Personal-Learning-Tracker>.git
 cd <your-repo-name>
 ```
 
